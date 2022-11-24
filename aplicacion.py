@@ -68,6 +68,26 @@ if archivo_registros_presencia is not None:
     # Tabla de registros de presencia
     st.header('Registros de presencia')
     st.dataframe(registros_presencia[['family', 'species', 'eventDate', 'locality', 'occurrenceID']].rename(columns = {'family':'Familia', 'species':'Especie', 'eventDate':'Fecha', 'locality':'Localidad', 'occurrenceID':'Origen del dato'}))
-     
 
-    
+    # Definición de columnas
+    col1, col2 = st.columns(2)
+
+    with col1:
+        # Gráficos de historial de registros de presencia por año
+        st.header('Historial de registros por año')
+        registros_presencia_grp_anio = pd.DataFrame(registros_presencia.groupby(registros_presencia['eventDate'].dt.year).count().eventDate)
+        registros_presencia_grp_anio.columns = ['registros_presencia']
+
+        fig = px.bar(registros_presencia_grp_anio, 
+                    labels={'eventDate':'Año', 'value':'Registros de presencia'})
+        st.plotly_chart(fig)
+
+    with col2:
+        # Gráficos de estacionalidad de registros de presencia por mes
+        st.header('Estacionalidad de registros por mes')
+        registros_presencia_grp_mes = pd.DataFrame(registros_presencia.groupby(registros_presencia['eventDate'].dt.month).count().eventDate)
+        registros_presencia_grp_mes.columns = ['registros_presencia']
+
+        fig = px.area(registros_presencia_grp_mes, 
+                    labels={'eventDate':'Mes', 'value':'Registros de presencia'})
+        st.plotly_chart(fig)  
