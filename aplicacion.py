@@ -63,6 +63,11 @@ if archivo_registros_presencia is not None:
    # SALIDAS
     #
 
+    st.write(asp_registros) 
+
     # Tabla de registros de presencia
     st.header('Registros de presencia')
     st.dataframe(registros_presencia[['family', 'species', 'eventDate', 'locality', 'occurrenceID']].rename(columns = {'family':'Familia', 'species':'Especie', 'eventDate':'Fecha', 'locality':'Localidad', 'occurrenceID':'Origen del dato'}))
+     
+
+    
